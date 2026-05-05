@@ -13,7 +13,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 
 interface NavbarProps {
     onBookRoom: () => void;
-    onBookTable: () => void;
+    onBookTable?: () => void;
 }
 
 const Navbar = ({ onBookRoom, onBookTable }: NavbarProps) => {

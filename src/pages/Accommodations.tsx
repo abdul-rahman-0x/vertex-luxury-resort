@@ -11,6 +11,7 @@ import {
     Users,
     ChevronDown,
 } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 
 // --- Types ---
 interface AccommodationsProps {
@@ -119,15 +120,13 @@ const SuiteItem = ({
     return (
         <div
             ref={ref}
-            className={`container mx-auto px-6 md:px-12 flex flex-col lg:flex-row gap-16 items-center transition-all duration-1000 ${
-                isVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-20"
-            }`}>
-            <div
-                className={`w-full lg:w-3/5 h-[500px] md:h-[600px] relative overflow-hidden group ${
-                    isEven ? "lg:order-1" : "lg:order-2"
+            className={`container mx-auto px-6 md:px-12 flex flex-col lg:flex-row gap-16 items-center transition-all duration-1000 ${isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-20"
                 }`}>
+            <div
+                className={`w-full lg:w-3/5 h-[500px] md:h-[600px] relative overflow-hidden group ${isEven ? "lg:order-1" : "lg:order-2"
+                    }`}>
                 <div className="absolute inset-0 bg-vertex-gold/10 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <img
                     src={suite.image}
@@ -145,9 +144,8 @@ const SuiteItem = ({
             </div>
 
             <div
-                className={`w-full lg:w-2/5 space-y-8 ${
-                    isEven ? "lg:order-2" : "lg:order-1"
-                }`}>
+                className={`w-full lg:w-2/5 space-y-8 ${isEven ? "lg:order-2" : "lg:order-1"
+                    }`}>
                 <div>
                     <span className="text-vertex-gold text-xs font-bold tracking-[0.3em] uppercase block mb-3">
                         {suite.tagline}
@@ -200,216 +198,219 @@ const Accommodations = ({ onBookRoom }: AccommodationsProps) => {
     }, []);
 
     return (
-        <div className="bg-[#050505] min-h-screen text-[#Eaeaea] font-sans selection:bg-vertex-gold selection:text-black">
-            {/* --- PROGRESS BAR --- */}
-            <div className="fixed left-0 top-0 h-full w-[2px] bg-white/5 z-[60] hidden lg:block">
-                <div
-                    className="w-full bg-vertex-gold transition-all duration-100 ease-out"
-                    style={{ height: `${scrollProgress * 100}%` }}
-                />
-            </div>
+        <>
+            <Helmet>
+                <title>VERTEX | Suites & Residences</title>
+                <meta name="description" content="Explore our collection of Presidential Suites and Ocean Deluxe rooms." />
+            </Helmet>
 
-            {/* --- SMART GLASSY NAVIGATION --- */}
-            <nav
-                className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-                    isScrolled
+            <div className="bg-[#050505] min-h-screen text-[#Eaeaea] font-sans selection:bg-vertex-gold selection:text-black">
+                {/* --- PROGRESS BAR --- */}
+                <div className="fixed left-0 top-0 h-full w-[2px] bg-white/5 z-[60] hidden lg:block">
+                    <div
+                        className="w-full bg-vertex-gold transition-all duration-100 ease-out"
+                        style={{ height: `${scrollProgress * 100}%` }}
+                    />
+                </div>
+
+                {/* --- SMART GLASSY NAVIGATION --- */}
+                <nav
+                    className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${isScrolled
                         ? "py-4 bg-[#050505]/70 backdrop-blur-md border-b border-white/10"
                         : "py-8 bg-transparent"
-                }`}>
-                <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24 flex justify-between items-center">
-                    <Link
-                        to="/"
-                        className={`group flex items-center gap-2 text-xs md:text-sm font-display tracking-widest uppercase transition-all duration-300 ${
-                            isScrolled
-                                ? "text-white"
-                                : "text-white mix-blend-difference"
-                        } hover:text-vertex-gold`}>
-                        <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                        <span className="hidden sm:inline">Back to Resort</span>
-                    </Link>
-                    <div
-                        className={`font-display font-bold text-xl md:text-2xl tracking-[0.3em] transition-all duration-300 ${
-                            isScrolled
-                                ? "text-white"
-                                : "text-white mix-blend-difference"
                         }`}>
-                        VERTEX
-                    </div>
-                    <button
-                        onClick={onBookRoom}
-                        className={`text-[10px] tracking-[0.2em] uppercase border border-vertex-gold/50 px-4 py-2 transition-all duration-500 hover:bg-vertex-gold hover:text-black ${
-                            isScrolled
+                    <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24 flex justify-between items-center">
+                        <Link
+                            to="/"
+                            className={`group flex items-center gap-2 text-xs md:text-sm font-display tracking-widest uppercase transition-all duration-300 ${isScrolled
+                                ? "text-white"
+                                : "text-white mix-blend-difference"
+                                } hover:text-vertex-gold`}>
+                            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                            <span className="hidden sm:inline">Back to Resort</span>
+                        </Link>
+                        <div
+                            className={`font-display font-bold text-xl md:text-2xl tracking-[0.3em] transition-all duration-300 ${isScrolled
+                                ? "text-white"
+                                : "text-white mix-blend-difference"
+                                }`}>
+                            VERTEX
+                        </div>
+                        <button
+                            onClick={onBookRoom}
+                            className={`text-[10px] tracking-[0.2em] uppercase border border-vertex-gold/50 px-4 py-2 transition-all duration-500 hover:bg-vertex-gold hover:text-black ${isScrolled
                                 ? "opacity-100 translate-y-0"
                                 : "opacity-0 -translate-y-4 pointer-events-none"
-                        }`}>
-                        Book Now
-                    </button>
-                </div>
-            </nav>
+                                }`}>
+                            Book Now
+                        </button>
+                    </div>
+                </nav>
 
-            {/* --- HERO --- */}
-            <header className="relative h-[90vh] flex flex-col justify-center px-6 md:px-24 overflow-hidden border-b border-white/5">
-                <div className="absolute inset-0 z-0">
-                    <div className="absolute inset-0 bg-black/60 z-10" />
-                    <img
-                        src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=2070&auto=format&fit=crop"
-                        className="w-full h-full object-cover animate-slow-zoom"
-                        alt="Luxury Suite"
-                    />
-                </div>
-                <div className="relative z-20 max-w-4xl">
-                    <p className="text-vertex-gold text-xs font-bold tracking-[0.4em] uppercase animate-fade-in mb-6">
-                        The Residences
-                    </p>
-                    <h1 className="font-display text-6xl md:text-8xl lg:text-9xl leading-[0.9] tracking-tighter text-white animate-fade-up">
-                        EXTEND THE <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50">
-                            EVENING.
-                        </span>
-                    </h1>
-                    <p className="mt-8 text-white/60 text-lg md:text-xl font-light max-w-2xl animate-fade-up">
-                        When the final course is served and the wine is
-                        finished, retreat to your private sanctuary.
-                    </p>
-                </div>
-                <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce opacity-50 text-white">
-                    <ChevronDown className="w-6 h-6" />
-                </div>
-            </header>
-
-            {/* --- SUITES LIST --- */}
-            <section className="py-32 space-y-40">
-                {suites.map((suite, index) => (
-                    <SuiteItem
-                        key={suite.id}
-                        suite={suite}
-                        index={index}
-                        onBookRoom={onBookRoom}
-                    />
-                ))}
-            </section>
-
-            {/* --- AMENITIES --- */}
-            <section className="py-28 bg-[#080808] border-t border-white/5">
-                <div className="container mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
-                    {[
-                        { icon: Coffee, label: "Gourmet Breakfast" },
-                        { icon: Star, label: "24h Concierge" },
-                        { icon: Wind, label: "Spa Access" },
-                        { icon: Wifi, label: "Private Lounge" },
-                    ].map((item, i) => (
-                        <div
-                            key={i}
-                            className="flex flex-col items-center gap-4 p-10 border border-white/5 hover:border-vertex-gold/50 transition-all duration-500 group">
-                            <item.icon className="w-6 h-6 text-white/30 group-hover:text-vertex-gold transition-colors" />
-                            <span className="text-xs font-bold tracking-[0.2em] uppercase text-white/60 group-hover:text-white">
-                                {item.label}
+                {/* --- HERO --- */}
+                <header className="relative h-[90vh] flex flex-col justify-center px-6 md:px-24 overflow-hidden border-b border-white/5">
+                    <div className="absolute inset-0 z-0">
+                        <div className="absolute inset-0 bg-black/60 z-10" />
+                        <img
+                            src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=2070&auto=format&fit=crop"
+                            className="w-full h-full object-cover animate-slow-zoom"
+                            alt="Luxury Suite"
+                        />
+                    </div>
+                    <div className="relative z-20 max-w-4xl">
+                        <p className="text-vertex-gold text-xs font-bold tracking-[0.4em] uppercase animate-fade-in mb-6">
+                            The Residences
+                        </p>
+                        <h1 className="font-display text-6xl md:text-8xl lg:text-9xl leading-[0.9] tracking-tighter text-white animate-fade-up">
+                            EXTEND THE <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50">
+                                EVENING.
                             </span>
-                        </div>
+                        </h1>
+                        <p className="mt-8 text-white/60 text-lg md:text-xl font-light max-w-2xl animate-fade-up">
+                            When the final course is served and the wine is
+                            finished, retreat to your private sanctuary.
+                        </p>
+                    </div>
+                    <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce opacity-50 text-white">
+                        <ChevronDown className="w-6 h-6" />
+                    </div>
+                </header>
+
+                {/* --- SUITES LIST --- */}
+                <section className="py-32 space-y-40">
+                    {suites.map((suite, index) => (
+                        <SuiteItem
+                            key={suite.id}
+                            suite={suite}
+                            index={index}
+                            onBookRoom={onBookRoom}
+                        />
                     ))}
-                </div>
-            </section>
+                </section>
 
-            {/* --- REDESIGNED CTA FOOTER --- */}
-            <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#050505]">
-                {/* 1. Enhanced Background with Slow Zoom */}
-                <div className="absolute inset-0 z-0">
-                    <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-transparent to-[#050505] z-10" />
-                    <div className="absolute inset-0 bg-black/40 z-10" />
-                    <img
-                        src="https://images.unsplash.com/photo-1540518614846-7eded433c457?q=80&w=2057&auto=format&fit=crop"
-                        className="w-full h-full object-cover grayscale opacity-40 animate-slow-zoom"
-                        alt="Sanctuary"
-                    />
-                </div>
-
-                {/* 2. Architectural Decorative Elements (The "Vertex" Lines) */}
-                <div className="absolute inset-0 z-10 pointer-events-none">
-                    <div className="absolute top-1/2 left-10 w-[1px] h-32 bg-vertex-gold/30 -translate-y-1/2 hidden lg:block" />
-                    <div className="absolute top-1/2 right-10 w-[1px] h-32 bg-vertex-gold/30 -translate-y-1/2 hidden lg:block" />
-                </div>
-
-                {/* 3. Content Container */}
-                <div className="relative z-20 container mx-auto px-6 text-center">
-                    <div className="max-w-4xl mx-auto space-y-12">
-                        {/* Top Label with Line */}
-                        <div className="flex flex-col items-center gap-4 animate-fade-in">
-                            <span className="text-vertex-gold text-xs font-bold tracking-[0.5em] uppercase">
-                                The Final Chapter
-                            </span>
-                            <div className="w-px h-12 bg-gradient-to-b from-vertex-gold to-transparent" />
-                        </div>
-
-                        {/* Main Title with Staggered Feel */}
-                        <div className="space-y-4">
-                            <h2 className="font-display text-6xl md:text-8xl lg:text-[10rem] text-white leading-[0.8] tracking-tighter">
-                                CLAIM YOUR <br />
-                                <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-white/20 italic font-serif tracking-normal">
-                                    Sanctuary.
+                {/* --- AMENITIES --- */}
+                <section className="py-28 bg-[#080808] border-t border-white/5">
+                    <div className="container mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
+                        {[
+                            { icon: Coffee, label: "Gourmet Breakfast" },
+                            { icon: Star, label: "24h Concierge" },
+                            { icon: Wind, label: "Spa Access" },
+                            { icon: Wifi, label: "Private Lounge" },
+                        ].map((item, i) => (
+                            <div
+                                key={i}
+                                className="flex flex-col items-center gap-4 p-10 border border-white/5 hover:border-vertex-gold/50 transition-all duration-500 group">
+                                <item.icon className="w-6 h-6 text-white/30 group-hover:text-vertex-gold transition-colors" />
+                                <span className="text-xs font-bold tracking-[0.2em] uppercase text-white/60 group-hover:text-white">
+                                    {item.label}
                                 </span>
-                            </h2>
+                            </div>
+                        ))}
+                    </div>
+                </section>
 
-                            <p className="text-white/50 font-light text-lg md:text-xl max-w-xl mx-auto leading-relaxed mt-8">
-                                A masterclass in restoration. From the silence
-                                of our sound-isolated suites to the bespoke
-                                service of our private chefs. The night is
-                                yours.
-                            </p>
-                        </div>
+                {/* --- REDESIGNED CTA FOOTER --- */}
+                <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#050505]">
+                    {/* 1. Enhanced Background with Slow Zoom */}
+                    <div className="absolute inset-0 z-0">
+                        <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-transparent to-[#050505] z-10" />
+                        <div className="absolute inset-0 bg-black/40 z-10" />
+                        <img
+                            src="https://images.unsplash.com/photo-1540518614846-7eded433c457?q=80&w=2057&auto=format&fit=crop"
+                            className="w-full h-full object-cover grayscale opacity-40 animate-slow-zoom"
+                            alt="Sanctuary"
+                        />
+                    </div>
 
-                        {/* Redesigned Premium Button */}
-                        <div className="pt-8">
-                            <button
-                                onClick={onBookRoom}
-                                className="group relative inline-flex flex-col items-center gap-4">
-                                {/* The Button Body */}
-                                <div className="relative px-16 py-6 border border-white/20 overflow-hidden transition-all duration-500 group-hover:border-vertex-gold bg-clip-padding">
-                                    {/* Hover Fill Effect */}
-                                    <div className="absolute inset-0 bg-vertex-gold translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
+                    {/* 2. Architectural Decorative Elements (The "Vertex" Lines) */}
+                    <div className="absolute inset-0 z-10 pointer-events-none">
+                        <div className="absolute top-1/2 left-10 w-[1px] h-32 bg-vertex-gold/30 -translate-y-1/2 hidden lg:block" />
+                        <div className="absolute top-1/2 right-10 w-[1px] h-32 bg-vertex-gold/30 -translate-y-1/2 hidden lg:block" />
+                    </div>
 
-                                    {/* Text Content */}
-                                    <div className="relative z-10 flex items-center gap-3">
-                                        <span className="font-display font-bold tracking-[0.3em] text-sm uppercase text-white group-hover:text-black transition-colors duration-500">
-                                            Check Availability
-                                        </span>
-                                        <ArrowRight className="w-4 h-4 text-vertex-gold group-hover:text-black transition-all duration-500 group-hover:translate-x-1" />
+                    {/* 3. Content Container */}
+                    <div className="relative z-20 container mx-auto px-6 text-center">
+                        <div className="max-w-4xl mx-auto space-y-12">
+                            {/* Top Label with Line */}
+                            <div className="flex flex-col items-center gap-4 animate-fade-in">
+                                <span className="text-vertex-gold text-xs font-bold tracking-[0.5em] uppercase">
+                                    The Final Chapter
+                                </span>
+                                <div className="w-px h-12 bg-gradient-to-b from-vertex-gold to-transparent" />
+                            </div>
+
+                            {/* Main Title with Staggered Feel */}
+                            <div className="space-y-4">
+                                <h2 className="font-display text-6xl md:text-8xl lg:text-[10rem] text-white leading-[0.8] tracking-tighter">
+                                    CLAIM YOUR <br />
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-white/20 italic font-serif tracking-normal">
+                                        Sanctuary.
+                                    </span>
+                                </h2>
+
+                                <p className="text-white/50 font-light text-lg md:text-xl max-w-xl mx-auto leading-relaxed mt-8">
+                                    A masterclass in restoration. From the silence
+                                    of our sound-isolated suites to the bespoke
+                                    service of our private chefs. The night is
+                                    yours.
+                                </p>
+                            </div>
+
+                            {/* Redesigned Premium Button */}
+                            <div className="pt-8">
+                                <button
+                                    onClick={onBookRoom}
+                                    className="group relative inline-flex flex-col items-center gap-4">
+                                    {/* The Button Body */}
+                                    <div className="relative px-16 py-6 border border-white/20 overflow-hidden transition-all duration-500 group-hover:border-vertex-gold bg-clip-padding">
+                                        {/* Hover Fill Effect */}
+                                        <div className="absolute inset-0 bg-vertex-gold translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
+
+                                        {/* Text Content */}
+                                        <div className="relative z-10 flex items-center gap-3">
+                                            <span className="font-display font-bold tracking-[0.3em] text-sm uppercase text-white group-hover:text-black transition-colors duration-500">
+                                                Check Availability
+                                            </span>
+                                            <ArrowRight className="w-4 h-4 text-vertex-gold group-hover:text-black transition-all duration-500 group-hover:translate-x-1" />
+                                        </div>
                                     </div>
-                                </div>
 
-                                {/* Meta Info under button */}
-                                <div className="flex items-center gap-8 opacity-0 group-hover:opacity-100 transition-all duration-700 translate-y-4 group-hover:translate-y-0">
-                                    <span className="text-[10px] text-vertex-gold tracking-widest uppercase font-bold">
-                                        Limited Seasonal Suites
-                                    </span>
-                                    <div className="w-1 h-1 rounded-full bg-vertex-gold" />
-                                    <span className="text-[10px] text-vertex-gold tracking-widest uppercase font-bold">
-                                        Priority Check-In
-                                    </span>
-                                </div>
-                            </button>
+                                    {/* Meta Info under button */}
+                                    <div className="flex items-center gap-8 opacity-0 group-hover:opacity-100 transition-all duration-700 translate-y-4 group-hover:translate-y-0">
+                                        <span className="text-[10px] text-vertex-gold tracking-widest uppercase font-bold">
+                                            Limited Seasonal Suites
+                                        </span>
+                                        <div className="w-1 h-1 rounded-full bg-vertex-gold" />
+                                        <span className="text-[10px] text-vertex-gold tracking-widest uppercase font-bold">
+                                            Priority Check-In
+                                        </span>
+                                    </div>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                {/* 4. Bottom Corner Stats/Details (Adds "Realism") */}
-                <div className="absolute bottom-12 left-12 hidden lg:block text-left border-l border-white/10 pl-6">
-                    <p className="text-[10px] text-white/30 uppercase tracking-[0.2em] mb-1">
-                        Elevation
-                    </p>
-                    <p className="text-sm font-mono text-white/60">
-                        1,240m Above Sea
-                    </p>
-                </div>
-                <div className="absolute bottom-12 right-12 hidden lg:block text-right border-r border-white/10 pr-6">
-                    <p className="text-[10px] text-white/30 uppercase tracking-[0.2em] mb-1">
-                        Coordinates
-                    </p>
-                    <p className="text-sm font-mono text-white/60">
-                        45.4215° N, 75.6972° W
-                    </p>
-                </div>
-            </section>
-        </div>
+                    {/* 4. Bottom Corner Stats/Details (Adds "Realism") */}
+                    <div className="absolute bottom-12 left-12 hidden lg:block text-left border-l border-white/10 pl-6">
+                        <p className="text-[10px] text-white/30 uppercase tracking-[0.2em] mb-1">
+                            Elevation
+                        </p>
+                        <p className="text-sm font-mono text-white/60">
+                            1,240m Above Sea
+                        </p>
+                    </div>
+                    <div className="absolute bottom-12 right-12 hidden lg:block text-right border-r border-white/10 pr-6">
+                        <p className="text-[10px] text-white/30 uppercase tracking-[0.2em] mb-1">
+                            Coordinates
+                        </p>
+                        <p className="text-sm font-mono text-white/60">
+                            45.4215° N, 75.6972° W
+                        </p>
+                    </div>
+                </section>
+            </div>
+        </>
     );
 };
 
