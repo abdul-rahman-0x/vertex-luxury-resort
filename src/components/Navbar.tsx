@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import {
-    Instagram,
-    Twitter,
+    Twitter,    
+    Mail,      
     Menu,
     X,
     Calendar,
@@ -154,27 +154,39 @@ const Navbar = ({ onBookRoom, onBookTable }: NavbarProps) => {
                             </Link>
                         </div>
 
-                        {/* --- RIGHT: Desktop Actions & Mobile Quick Access --- */}
+                        {/* --- RIGHT: Desktop Actions --- */}
                         <div className="flex items-center gap-4 md:gap-6">
-                            {/* Desktop Socials */}
+
+                            {/* --- UPDATED SOCIALS --- */}
                             <div className="hidden lg:flex items-center gap-4 border-r border-white/10 pr-6">
-                                {[Instagram, Twitter].map((Icon, i) => (
-                                    <a
-                                        key={i}
-                                        href="#"
-                                        className="text-white/40 hover:text-vertex-gold transition-colors">
-                                        <Icon size={16} />
-                                    </a>
-                                ))}
+                                {/* Twitter Link */}
+                                <a
+                                    href="https://x.com/_AbdulRahman09"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-white/40 hover:text-vertex-gold transition-colors"
+                                    aria-label="Twitter"
+                                >
+                                    <Twitter size={16} />
+                                </a>
+
+                                {/* Mail Link */}
+                                <a
+                                    href="mailto:abdulrahman161004@gmail.com"
+                                    className="text-white/40 hover:text-vertex-gold transition-colors"
+                                    aria-label="Email"
+                                >
+                                    <Mail size={16} />
+                                </a>
                             </div>
 
-                            {/* Reservations Button (Desktop) / Icon (Mobile) */}
+                            {/* Reservations Button */}
                             <button
                                 onClick={handleViewReservations}
                                 className={cn(
                                     "flex items-center gap-2 transition-all duration-300",
                                     "lg:px-6 lg:py-2 lg:border lg:border-white/20 lg:text-[11px] lg:tracking-widest lg:uppercase lg:hover:border-vertex-gold lg:hover:bg-vertex-gold lg:hover:text-black",
-                                    "text-white/70 hover:text-vertex-gold" // Mobile Style
+                                    "text-white/70 hover:text-vertex-gold"
                                 )}>
                                 <Calendar className="w-5 h-5 lg:w-3.5 lg:h-3.5" />
                                 <span className="hidden lg:block">
@@ -204,7 +216,6 @@ const Navbar = ({ onBookRoom, onBookTable }: NavbarProps) => {
                     mobileOpen ? "translate-y-0" : "-translate-y-full"
                 )}>
                 <div className="container mx-auto px-8 h-full flex flex-col justify-center">
-                    {/* Navigation Links */}
                     <div className="flex flex-col gap-6 mb-16">
                         {navLinks.map((link, i) => (
                             <a
@@ -228,7 +239,6 @@ const Navbar = ({ onBookRoom, onBookTable }: NavbarProps) => {
                             </a>
                         ))}
 
-                        {/* Explicit Reservations Link for Mobile */}
                         <button
                             onClick={handleViewReservations}
                             className={cn(
@@ -243,7 +253,6 @@ const Navbar = ({ onBookRoom, onBookTable }: NavbarProps) => {
                         </button>
                     </div>
 
-                    {/* Booking Quick Actions Grid */}
                     <div
                         className={cn(
                             "grid grid-cols-2 gap-4 transition-all duration-1000 delay-500",
@@ -266,10 +275,11 @@ const Navbar = ({ onBookRoom, onBookTable }: NavbarProps) => {
                         </button>
                         <button
                             onClick={() => {
-                                onBookTable();
+                                if (onBookTable) onBookTable();
                                 setMobileOpen(false);
                             }}
-                            className="p-6 border border-white/5 bg-white/[0.03] flex flex-col items-center gap-3 active:bg-white/10">
+                            className="p-6 border border-white/5 bg-white/[0.03] flex flex-col items-center gap-3 active:bg-white/10"
+                        >
                             <Phone className="w-5 h-5 text-vertex-gold" />
                             <span
                                 className="text-[9px] tracking-[0.2em] text-white uppercase font-bold"
