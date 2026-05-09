@@ -187,5 +187,4 @@ This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) f
 ---
 
 ## Project Lead
-**[Abdul Rahman](https://github.com/ABDUL-RAHMAN-9)**  
-> “Good design is not just how it looks — it’s how it feels when you use it.”
+**[Abdul Rahman](https://github.com/abdul-rahman-0x)**  
