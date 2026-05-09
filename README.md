@@ -166,7 +166,7 @@ Planned improvements:
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/ABDUL-RAHMAN-9/vertex-luxury-resort.git
+   git clone https://github.com/abdul-rahman-0x/vertex-luxury-resort.git
    cd vertex-luxury-resort
 
 2. **Install dependencies**
