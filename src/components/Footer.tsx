@@ -6,14 +6,31 @@ import {
   Linkedin,
   Twitter,
 } from "lucide-react";
+import { useState } from "react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+
+  // State for email and validation
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState(false);
 
   const scrollToTop = () => {
     const homeSection = document.getElementById("home");
     if (homeSection) {
       homeSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  // Handle Newsletter Submission
+  const handleNewsletterSubmit = (e) => {
+    e.preventDefault(); // Prevents page reload
+    if (!email.trim()) {
+      setError(true);
+    } else {
+      setError(false);
+      alert(`Subscribed with: ${email}`); // Replace with your actual logic
+      setEmail(""); // Clear input after success
     }
   };
 
@@ -101,16 +118,33 @@ const Footer = () => {
               ))}
             </div>
             <div className="pt-4">
-              <div className="flex items-center border-b border-white/30 pb-2 focus-within:border-vertex-gold transition-colors duration-300">
-                <input
-                  type="email"
-                  placeholder="Join our newsletter"
-                  className="bg-transparent border-none outline-none text-white placeholder:text-white/40 w-full text-sm py-2"
-                />
-                <button className="text-white hover:text-vertex-gold transition-colors">
-                  <ArrowRight className="w-5 h-5" />
-                </button>
-              </div>
+              {/* Changed div to form for better accessibility */}
+              <form onSubmit={handleNewsletterSubmit} className="relative">
+                <div
+                  className={`flex items-center border-b pb-2 transition-colors duration-300 ${error ? "border-red-500" : "border-white/30 focus-within:border-vertex-gold"}`}>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      if (error) setError(false); // Remove error when typing starts
+                    }}
+                    placeholder="Join our newsletter"
+                    className="bg-transparent border-none outline-none text-white placeholder:text-white/40 w-full text-sm py-2"
+                  />
+                  <button
+                    type="submit"
+                    className="text-white hover:text-vertex-gold transition-colors">
+                    <ArrowRight className="w-5 h-5" />
+                  </button>
+                </div>
+                {/* Error Message */}
+                {error && (
+                  <p className="absolute -bottom-6 left-0 text-[10px] text-red-500 uppercase tracking-widest animate-pulse">
+                    Email is required
+                  </p>
+                )}
+              </form>
             </div>
           </div>
         </div>
