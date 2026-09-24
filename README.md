@@ -57,24 +57,24 @@ Interactive elements are constructed to feel responsive and natural, avoiding ex
 
 ## Booking State & Client Resolution Flow
 
-This architectural flowchart illustrates how the client-side system resolves interactive user inputs, manages component states, validates data schemas, and resolves asynchronous PDF tasks locally:
+Vertex handles the reservation lifecycle on the client through a lightweight, step-by-step pipeline ensuring strict data validation, simulated network transitions, and in-browser document compilation:
 
 ```mermaid
-flowchart TD
-    A[User Lands on Portal] --> B[Dynamic Header Navigation / Adaptive Glassmorphism]
-    B --> C[Select Reservation Mode: Accommodation vs Dining]
-    C --> D[Modal Dialog Triggered via Radix UI Alert-Dialog]
-    D --> E[Form Controller: React Hook Form]
-    E --> F{Real-time Inputs / Date-Picker & Guests}
-    F -->|Form Input Changes| G[Zod Schema Validator]
-    G -->|Validation Failed| H[Inline Error Feedback & Accessibility Announcer]
-    G -->|Validation Passed| I[Mock Transaction Trigger: TanStack React Query]
-    I --> J[Transition States: Loading Indicators & Disabled Inputs]
-    J --> K{Simulated Server Latency Resolved?}
-    K -- Success --> L[Trigger Sonner Notification Toast]
-    L --> M[Programmatic PDF Generation: jsPDF Renderer]
-    M --> N[Automatic Itinerary Download & UI Reset]
-    K -- Error Simulation --> O[Graceful Error Boundary / Retry State]
+sequenceDiagram
+    actor User
+    participant Form as Booking Modal (React)
+    participant Zod as Validator (Zod Schema)
+    participant Query as State Engine (React Query)
+    participant PDF as Invoice Engine (jsPDF)
+
+    User->>Form: 1. Select dates & guest count
+    Form->>Zod: 2. Check reservation constraints
+    Zod-->>Form: 3. Return verified data payload
+    Form->>Query: 4. Trigger reservation mutation
+    Query->>Query: 5. Lock UI & show loading state
+    Query->>PDF: 6. Compile itinerary from session
+    PDF-->>User: 7. Auto-download booking invoice (PDF)
+    Query-->>Form: 8. Show confirmation toast & reset form
 ```
 
 ---
