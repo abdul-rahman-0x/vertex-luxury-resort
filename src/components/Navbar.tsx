@@ -64,10 +64,12 @@ const Navbar = ({ onBookRoom }: NavbarProps) => {
     <>
       <nav
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-          scrolled
-            ? "bg-black/50 backdrop-blur-md py-4 shadow-lg shadow-black/25"
-            : "bg-transparent py-6",
+          "fixed top-0 left-0 right-0 z-[60] transition-all duration-300",
+          mobileOpen
+            ? "bg-transparent py-6"
+            : scrolled
+              ? "bg-black/50 backdrop-blur-md py-4 shadow-lg shadow-black/25"
+              : "bg-transparent py-6",
         )}>
         <div className="container mx-auto px-6 lg:px-12">
           <div className="grid grid-cols-2 lg:grid-cols-3 items-center">
@@ -125,7 +127,7 @@ const Navbar = ({ onBookRoom }: NavbarProps) => {
 
               <button
                 aria-label="Toggle Navigation"
-                className="lg:hidden p-2 text-white z-[60] ml-auto"
+                className="lg:hidden p-2 text-white z-[70] ml-auto"
                 onClick={() => setMobileOpen(!mobileOpen)}>
                 {mobileOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
@@ -136,10 +138,10 @@ const Navbar = ({ onBookRoom }: NavbarProps) => {
 
       <div
         className={cn(
-          "fixed inset-0 z-40 bg-neutral-950/95 backdrop-blur-xl transition-all duration-500 ease-in-out lg:hidden",
+          "fixed inset-0 z-[55] bg-[#0c0c0c] transition-opacity duration-300 ease-in-out lg:hidden",
           mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
         )}>
-        <div className="container mx-auto px-8 h-full flex flex-col justify-center gap-10">
+        <div className="container mx-auto px-7 h-full flex flex-col justify-between pt-28 pb-10">
           <div className="flex flex-col gap-6">
             {navLinks.map((link) => (
               <a
@@ -147,17 +149,17 @@ const Navbar = ({ onBookRoom }: NavbarProps) => {
                 href={link.href}
                 onClick={(e) => scrollToSection(e, link.href)}
                 className={cn(
-                  "text-2xl font-normal transition-colors",
+                  "text-[28px] font-light tracking-tight transition-colors py-1",
                   activeSection === link.id
                     ? "text-[hsl(var(--vertex-gold))]"
-                    : "text-white/90 hover:text-white",
+                    : "text-white hover:text-white/80",
                 )}>
                 {link.name}
               </a>
             ))}
           </div>
 
-          <div className="pt-8 border-t border-white/10">
+          <div className="pt-6 border-t border-white/10">
             <button
               onClick={() => {
                 onBookRoom();
