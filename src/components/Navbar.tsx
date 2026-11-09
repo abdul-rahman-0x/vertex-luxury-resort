@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Calendar, Menu, X, BookmarkCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import logoDark from "@/assets/logo-dark.svg";
 
 interface NavbarProps {
   onBookRoom: () => void;
@@ -17,7 +18,7 @@ const Navbar = ({ onBookRoom }: NavbarProps) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      setScrolled(window.scrollY > 40);
       const sections = ["our_story", "wellness", "dining", "accommodation"];
       const current = sections.find((id) => {
         const el = document.getElementById(id);
@@ -63,38 +64,48 @@ const Navbar = ({ onBookRoom }: NavbarProps) => {
     <>
       <nav
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all transition-duration-[700ms] antialiased",
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
           scrolled
-            ? "bg-white/90 backdrop-blur-md py-4 shadow-sm"
-            : "bg-transparent py-8",
+            ? "bg-black/50 backdrop-blur-md py-4 shadow-lg shadow-black/25"
+            : "bg-transparent py-6",
         )}>
         <div className="container mx-auto px-6 lg:px-12">
-          <div className="flex items-center justify-between">
-            {/* --- LEFT: Nav Links (Sentence Case) --- */}
-            <div className="hidden lg:flex items-center gap-10">
+          <div className="grid grid-cols-2 lg:grid-cols-3 items-center">
+            <div className="flex items-center">
+              <Link
+                to="/"
+                onClick={(e) => scrollToSection(e, "#home")}
+                className="flex items-center gap-3.5 group">
+                <img
+                  src={logoDark}
+                  alt="Vertex"
+                  className="h-6 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                />
+                <span className="text-[17px] font-semibold tracking-[0.24em] uppercase text-white transition-opacity duration-300 group-hover:opacity-90">
+                  Vertex
+                </span>
+              </Link>
+            </div>
+
+            <div className="hidden lg:flex items-center justify-center gap-8">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
                   onClick={(e) => scrollToSection(e, link.href)}
-                  className="group relative">
+                  className="relative group py-1">
                   <span
                     className={cn(
-                      "text-[15px] font-semibold transition-colors duration-300",
-                      scrolled
-                        ? activeSection === link.id
-                          ? "text-black"
-                          : "text-black/50 hover:text-black"
-                        : activeSection === link.id
-                          ? "text-white"
-                          : "text-white/70 hover:text-white",
+                      "text-[15px] font-normal transition-colors duration-200",
+                      activeSection === link.id
+                        ? "text-white"
+                        : "text-white/70 hover:text-white",
                     )}>
                     {link.name}
                   </span>
-                  {/* Active Indicator Dot */}
                   <div
                     className={cn(
-                      "absolute -bottom-2 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[hsl(var(--vertex-gold))] transition-all duration-300",
+                      "absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[hsl(var(--vertex-gold))] transition-all duration-200",
                       activeSection === link.id
                         ? "opacity-100 scale-100"
                         : "opacity-0 scale-0",
@@ -104,91 +115,56 @@ const Navbar = ({ onBookRoom }: NavbarProps) => {
               ))}
             </div>
 
-            {/* --- CENTER: Clean Logo --- */}
-            <div className="absolute left-1/2 -translate-x-1/2">
-              <Link
-                to="/"
-                onClick={(e) => scrollToSection(e, "#home")}
-                className="group">
-                <h1
-                  className={cn(
-                    "font-body text-2xl font-bold tracking-tight transition-all duration-500",
-                    scrolled ? "text-black scale-95" : "text-white scale-100",
-                  )}>
-                  Vertex
-                </h1>
-              </Link>
-            </div>
-
-            {/* --- RIGHT: Action Pill --- */}
-            <div className="flex items-center gap-6">
+            <div className="flex items-center justify-end gap-4">
               <button
                 onClick={() => navigate("/my-reservations")}
-                className={cn(
-                  "hidden lg:flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-500 shadow-lg",
-                  scrolled
-                    ? "bg-black text-white hover:bg-[hsl(var(--vertex-gold))]"
-                    : "bg-white text-black hover:bg-[hsl(var(--vertex-gold))]",
-                )}>
-                <Calendar size={16} className="opacity-50" />
+                className="hidden lg:flex items-center gap-2 px-5 py-2.5 rounded-full text-[14px] font-medium bg-white text-neutral-900 hover:bg-neutral-100 transition-colors shadow-sm">
+                <Calendar size={15} className="opacity-60" />
                 <span>Reservations</span>
               </button>
 
               <button
-                className={cn(
-                  "lg:hidden p-2 transition-colors z-[60] relative",
-                  mobileOpen || scrolled ? "text-black" : "text-white",
-                )}
+                aria-label="Toggle Navigation"
+                className="lg:hidden p-2 text-white z-[60] ml-auto"
                 onClick={() => setMobileOpen(!mobileOpen)}>
-                {mobileOpen ? <X size={26} /> : <Menu size={26} />}
+                {mobileOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
             </div>
           </div>
         </div>
       </nav>
 
-      {/* --- MOBILE OVERLAY --- */}
       <div
         className={cn(
-          "fixed inset-0 z-40 bg-white transition-all transition-duration-[800ms] transition-timing-[cubic-bezier(0.85,0,0.15,1)]",
-          mobileOpen ? "translate-y-0" : "-translate-y-full",
+          "fixed inset-0 z-40 bg-neutral-950/95 backdrop-blur-xl transition-all duration-500 ease-in-out lg:hidden",
+          mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
         )}>
-        <div className="container mx-auto px-10 h-full flex flex-col justify-center gap-12">
+        <div className="container mx-auto px-8 h-full flex flex-col justify-center gap-10">
           <div className="flex flex-col gap-6">
-            {navLinks.map((link, i) => (
+            {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
                 onClick={(e) => scrollToSection(e, link.href)}
                 className={cn(
-                  "font-body text-5xl font-semibold tracking-tight transition-all transition-duration-[600ms]",
-                  mobileOpen
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-10 opacity-0",
+                  "text-2xl font-normal transition-colors",
                   activeSection === link.id
                     ? "text-[hsl(var(--vertex-gold))]"
-                    : "text-black",
-                )}
-                style={{ transitionDelay: `${i * 100 + 150}ms` }}>
+                    : "text-white/90 hover:text-white",
+                )}>
                 {link.name}
               </a>
             ))}
           </div>
 
-          <div
-            className={cn(
-              "pt-10 border-t border-black/5 transition-all transition-duration-[800ms] delay-500",
-              mobileOpen
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-10",
-            )}>
+          <div className="pt-8 border-t border-white/10">
             <button
               onClick={() => {
                 onBookRoom();
                 setMobileOpen(false);
               }}
-              className="w-full py-5 bg-black text-white rounded-full font-semibold text-base flex items-center justify-center gap-3 shadow-xl">
-              <BookmarkCheck size={20} />
+              className="w-full py-4 bg-white text-neutral-900 rounded-full font-medium text-sm flex items-center justify-center gap-2 shadow-lg hover:bg-neutral-100 transition-colors">
+              <BookmarkCheck size={18} />
               Book your stay
             </button>
           </div>
