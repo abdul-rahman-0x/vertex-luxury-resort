@@ -1,157 +1,151 @@
 <div align="center">
-  <h1>Vertex — Next-Generation Resort Interface</h1>
-  <p><strong>A high-performance frontend experience where design, motion, and usability work together.</strong></p>
-  <p align="center">
-  <img src="https://img.shields.io/badge/React-18-%2361DAFB?style=flat&logo=react&logoColor=black" />
-  <img src="https://img.shields.io/badge/Vite-Build-%23646CFF?style=flat&logo=vite&logoColor=white" />
-  <img src="https://img.shields.io/badge/TypeScript-Strict-%233178C6?style=flat&logo=typescript&logoColor=white" />
-  <img src="https://img.shields.io/badge/TailwindCSS-Utility-%2306B6D4?style=flat&logo=tailwindcss&logoColor=white" />
-</p>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="src/assets/logo-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="src/assets/logo-light.svg">
+    <img alt="VERTEX" src="public/favicon.svg" width="64" height="64">
+  </picture>
+
+  <h1>VERTEX</h1>
+
+  <p><strong>A bespoke digital sanctuary for a modern coastal resort, crafted to make exploring suites, planning wellness retreats, and booking reservations feel effortless and refined.</strong></p>
+
+  <p>
+    <a href="https://vertex-luxury-resort.vercel.app/"><strong>Explore Live Site →</strong></a>
+  </p>
+
+  <p>
+    <img src="https://img.shields.io/badge/React-18-%2361DAFB?style=flat&logo=react&logoColor=black" alt="React 18" />
+    <img src="https://img.shields.io/badge/Vite-Build-%23646CFF?style=flat&logo=vite&logoColor=white" alt="Vite" />
+    <img src="https://img.shields.io/badge/TypeScript-Strict-%233178C6?style=flat&logo=typescript&logoColor=white" alt="TypeScript" />
+    <img src="https://img.shields.io/badge/TailwindCSS-Utility-%2306B6D4?style=flat&logo=tailwindcss&logoColor=white" alt="Tailwind CSS" />
+  </p>
 </div>
+
+---
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Key Features](#key-features)
+- [Reservation & Invoice Flow](#reservation--invoice-flow)
+- [Project Structure](#project-structure)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+- [Roadmap](#roadmap)
+- [License](#license)
+- [Author](#author)
 
 ---
 
 ## Overview
 
-Modern luxury web interfaces often prioritize visual aesthetics at the expense of core performance metrics. Heavy assets, unchecked rendering cycles, and unoptimized animation frames can lead to high Interaction to Next Paint (INP) rates, creating friction during crucial workflows like reservation bookings.
+Most luxury hospitality websites are weighed down by heavy assets, clunky third-party booking widgets, and slow page transitions that frustrate guests before they even arrive.
 
-**Vertex** was designed to solve this performance-fidelity gap. It is a client-first application that balances rich, storytelling micro-interactions with precise layout performance, offering a smooth user experience across varying device viewports.
-
----
-
-## Why Vertex Exists
-
-Many modern, animation-heavy interfaces face structural limitations:
-* Interfaces look premium but suffer from frame rate drops under complex scroll animations.
-* Interactive components exist as disconnected elements, causing inconsistent focus management.
-* Dynamic client states (such as multifaceted calendars) lack resilient client-side form validation.
-* Codebases scale poorly due to the tight coupling of UI templates and business logic.
-
-**Vertex addresses these challenges directly:**
-* **Purposeful Motion**: Every animation operates under hardware-accelerated transforms to avoid browser repaint storms.
-* **Component Accessibility**: Leveraging headless primitives to enforce keyboard navigability and correct ARIA states out of the box.
-* **Separated Architecture**: Business state, custom validation schemas, and presenter layouts are cleanly modularized.
+**Vertex** approaches resort booking from a clean-slate engineering perspective: delivering an editorial, magazine-like feel without sacrificing speed. Built with modern React and TypeScript, it keeps client interactions snappy, loads typography instantly without layout shift, and provides guests with an immediate, validated booking experience directly in their browser.
 
 ---
 
-## Core Client Experiences
+## Key Features
 
-### 1. Dynamic Booking & Validation Engine
-The interface houses a modular booking wizard that dynamically handles both **Room Reservations** and **Dining Bookings** within a single validation footprint.
-* Implements dynamic forms managed by **React Hook Form**, leveraging **Zod** schema validations for immediate feedback on date range selections, capacity limits, and chronological constraints.
-* Simulates server latency using **TanStack React Query** mutations to manage global loading, error boundaries, and transition states.
-* Integrates **jsPDF** programmatically to parse successful client session records and generate localized booking invoices directly in-browser.
-
-### 2. High-Frame-Rate Storytelling
-Instead of relying on heavy third-party animation engines, Vertex leverages lightweight native structures to create an immersive, narrative layout.
-* Uses the browser’s **Intersection Observer API** to activate scroll-triggered transition triggers only when elements occupy the visible viewport.
-* Reduces Cumulative Layout Shift (CLS) by utilizing predetermined aspect-ratio calculations alongside hardware-accelerated CSS properties (`opacity`, `transform`).
-
-### 3. Accessible UI Primitives
-Interactive elements are constructed to feel responsive and natural, avoiding excessive DOM node inflation.
-* **Navigation Overlay**: An adaptive glassmorphic navbar that adjusts transparency and blur indexes dynamically based on window scroll parameters.
-* **Carousel Explorers**: Drag-to-slide carousels powered by **Embla Carousel** for natural tactile feedback on mobile devices.
-* **Adaptive Contexts**: Interactive, responsive panels built using specialized drawer primitives (**Vaul**) and flexible layout splitters (**React Resizable Panels**).
+- **Architectural Storytelling**: Fluid scroll-tracked layout highlighting resort suites, ocean gastronomy, and wellness treatments with zero UI stutter.
+- **Dynamic Booking Engine**: A modal-based reservation system managing both stay dates and guest counts with strict client-side validation using **Zod** and **React Hook Form**.
+- **In-Browser PDF Invoices**: Generates a downloadable, branded PDF itinerary on successful reservation using **jsPDF**, requiring zero backend roundtrips.
+- **Adaptive Glass Navigation**: A responsive header that maintains legibility across dark photography and light scroll sections without visual flicker.
+- **Fast First Paint**: Fonts preconnected via Google Fonts and vector assets tailored with native SVG color-scheme adaptation.
 
 ---
 
-## Booking State & Client Resolution Flow
+## Reservation & Invoice Flow
 
-Vertex handles the reservation lifecycle on the client through a lightweight, step-by-step pipeline ensuring strict data validation, simulated network transitions, and in-browser document compilation:
+The booking lifecycle runs client-first to keep user interactions instantaneous:
 
 ```mermaid
 sequenceDiagram
-    actor User
-    participant Form as Booking Modal (React)
-    participant Zod as Validator (Zod Schema)
-    participant Query as State Engine (React Query)
-    participant PDF as Invoice Engine (jsPDF)
+    actor Guest
+    participant Modal as Booking Modal
+    participant Zod as Form Validator
+    participant Query as State Handler
+    participant PDF as jsPDF Generator
 
-    User->>Form: 1. Select dates & guest count
-    Form->>Zod: 2. Check reservation constraints
-    Zod-->>Form: 3. Return verified data payload
-    Form->>Query: 4. Trigger reservation mutation
-    Query->>Query: 5. Lock UI & show loading state
-    Query->>PDF: 6. Compile itinerary from session
-    PDF-->>User: 7. Auto-download booking invoice (PDF)
-    Query-->>Form: 8. Show confirmation toast & reset form
+    Guest->>Modal: Select room type, dates & guests
+    Modal->>Zod: Validate constraints & dates
+    Zod-->>Modal: Payload approved
+    Modal->>Query: Submit reservation
+    Query->>PDF: Compile booking details
+    PDF-->>Guest: Automatic invoice download (.pdf)
+    Query-->>Modal: Display confirmation & clear form
 ```
 
 ---
 
-## Architecture & Codebase Design
+## Project Structure
 
-Vertex follows a modular, feature-first structure designed to keep developers highly isolated when adding new layout components:
+The project uses a clean, feature-aligned layout matching real app routes and shared primitives:
 
-```bash
-src/
-├── components/
-│   ├── ui/           # Reusable design system tokens & primitives (shadcn/radix)
-│   ├── features/     # Isolated operational features (Booking controllers, modal workflows)
-│   └── sections/     # Page-level structures (Hero presentation, storytelling viewports)
-├── pages/            # Route components resolved via React Router DOM
-├── hooks/            # Shared logic helpers (Intersection Observer, viewport calculations)
-├── lib/              # Client utility functions (Tailwind Merge, date formatters)
-└── assets/           # Optimized structural graphics & typography
+```text
+vertex-luxury-resort/
+├── public/
+│   └── favicon.svg           # Adaptive browser tab icon
+├── src/
+│   ├── assets/               # Brand vectors and optimized webp photography
+│   ├── components/           # Core layout sections (Navbar, Hero, BookingModal, Footer)
+│   │   └── ui/               # Headless interface primitives (Radix UI / shadcn)
+│   ├── hooks/                # Viewport and interaction helpers
+│   ├── lib/                  # Utility functions and jsPDF menu/invoice generators
+│   └── pages/                # Route views (Accommodations, DiningMenu, Wellness, etc.)
+├── index.html                # Preconnected typography and LCP preloads
+├── tailwind.config.ts        # Custom resort color tokens and typography definitions
+└── vite.config.ts            # Build configuration
 ```
 
 ---
 
 ## Tech Stack
 
-* **Frontend Library**: React 18 (utilizing strict state isolation and custom hooks)
-* **Build System**: Vite (configured with `@vitejs/plugin-react-swc` for rapid hot-module updates)
-* **Type System**: TypeScript (configured with Strict Mode checks)
-* **Styling**: Tailwind CSS + shadcn/ui headless component primitives
-* **Asynchronous Caching**: TanStack React Query (v5)
-* **Form Resolution**: React Hook Form + Zod resolvers
-* **Document Compilation**: jsPDF (integrated for direct PDF document download)
-* **Routing**: React Router DOM (v6)
-* **UI Utilities**: Lucide Icons, Embla Carousel, Tailwind Animate
-
----
-
-## Future Scope
-
-While Vertex currently operates as an optimized client-first architecture, the system is prepared for backend integration:
-* **API Integration**: Developing a microservice REST API (Node.js/Express) to handle real-time reservation processing.
-* **Database Pipeline**: Connecting PostgreSQL database tables using Prisma ORM to secure persistent pricing, room counts, and dining availability.
-* **Authentication**: Integrating secure multi-factor authentication (MFA) and customizable user profile dashboards.
-* **Admin Workspace**: Adding statistical dashboard panels driven by **Recharts** to monitor simulation metrics, sales ratios, and room occupancy graphs in real-time.
+- **Core**: React 18, TypeScript, Vite
+- **Styling**: Tailwind CSS, shadcn/ui headless primitives
+- **Forms & Validation**: React Hook Form, Zod
+- **Data & State**: TanStack React Query v5
+- **Document Generation**: jsPDF
+- **Routing & Icons**: React Router DOM v6, Lucide React
 
 ---
 
 ## Getting Started
 
 ### 1. Prerequisites
-Ensure you have **Node.js 18+** and **NPM** (or your preferred package manager) configured on your machine.
+Ensure you have **Node.js 18+** installed on your machine.
 
-### 2. Clone the Repository
+### 2. Clone and Install
 ```bash
 git clone https://github.com/abdul-rahman-0x/vertex-luxury-resort.git
 cd vertex-luxury-resort
-```
-
-### 3. Install Dependencies
-```bash
 npm install
 ```
 
-### 4. Boot up Development Server
+### 3. Run Locally
 ```bash
 npm run dev
 ```
-Open `http://localhost:5173` in your web browser to view the application.
+
+The application will be running at `http://localhost:5173`.
+
+---
+
+## Roadmap
+
+- [ ] Connect a Node.js/Express REST API to persist live room availability.
+- [ ] Add PostgreSQL integration via Prisma for dynamic pricing calculations.
+- [ ] Expand the guest dashboard for managing previous and upcoming stays.
 
 ---
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+Distributed under the [MIT License](LICENSE).
 
 ---
 
 ## Author
 
-Developed by **[Abdul Rahman](https://github.com/abdul-rahman-0x)**
-
+Crafted by **[Abdul Rahman](https://github.com/abdul-rahman-0x)**
